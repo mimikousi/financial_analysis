@@ -29,7 +29,16 @@ except KeyError:
 
 financials = ticker.financials.T[['Total Revenue', 'Gross Profit']]
 financials['Gross Margin'] = financials["Gross Profit"] / financials["Total Revenue"]*100
-st.dataframe(financials)
+
+# 列名を日本語に変換
+financials_ = financials.rename(columns={
+    'Total Revenue': '売上高',
+    'Gross Profit': '売上総利益（粗利）',
+    'Gross Margin': '粗利率（％）'
+})
+
+# 表示
+st.dataframe(financials_)
 
 # 年月の表示を列名（日付→年表記など）に変換（例: 2021-12-31 → 2021）
 financials.index = pd.to_datetime(financials.index).year.astype(int)

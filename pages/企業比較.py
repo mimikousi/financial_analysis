@@ -73,14 +73,23 @@ if not mean_df.empty:
                      y='Gross Margin',
                      color='Company Name',
                      hover_name='Ticker',
-                     title='売上高増加率と売上総利益率(4年平均)',
+                     title='売上高増加率と売上総利益率（粗利率）_4年平均値',
                      labels={
                          'Revenue Growth Rate': '売上高増加率（%）',
-                         'Gross Margin': '売上総利益率（%）'
+                         'Gross Margin': '粗利率（%）'
                      })
     fig.update_traces(marker=dict(size=10), selector=dict(mode='markers'))
     st.plotly_chart(fig, use_container_width=True)
 else:
     st.info("有効なデータがありません。")
 
-st.dataframe(mean_df)
+
+# 列名を日本語に変換
+mean_df_ = mean_df.rename(columns={
+    'Ticker': '企業コード',
+    'Gross Margin': '粗利率_平均（％）',
+    'Revenue Growth Rate':'売上高増加率_平均（％）',
+    'Company Name':'企業名'
+})
+
+st.dataframe(mean_df_)
