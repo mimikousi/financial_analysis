@@ -7,7 +7,8 @@ st.set_page_config(page_title="企業比較", layout="wide")
 st.title("企業比較")
 
 # 初期設定されたティッカー
-default_tickers = ["4063.T", "3407.T", "4188.T", "4183.T", "4005.T"]
+#default_tickers = ["4063.T", "3407.T", "4188.T", "4183.T", "4005.T"]
+default_tickers = ["4063.T", "3407.T"]
 
 # 追加ティッカーの入力欄
 ticker_input = st.text_area(
@@ -79,6 +80,11 @@ if not mean_df.empty:
                          'Gross Margin': '粗利率（%）'
                      })
     fig.update_traces(marker=dict(size=10), selector=dict(mode='markers'))
+    # 軸の下限を 0 に設定
+    fig.update_layout(
+        xaxis=dict(range=[0, mean_df['Revenue Growth Rate'].max() * 1.1]),
+        yaxis=dict(range=[0, mean_df['Gross Margin'].max() * 1.1])
+    )
     st.plotly_chart(fig, use_container_width=True)
 else:
     st.info("有効なデータがありません。")

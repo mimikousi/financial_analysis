@@ -80,7 +80,7 @@ fig.add_trace(
 
 # レイアウト調整
 fig.update_layout(
-    title_text="売上高・売上総利益・粗利率の推移",
+    title_text=f"売上高・売上総利益・粗利率の推移_{company_name}",
     barmode='group',
     xaxis_title="年度",
     legend_title="項目",
