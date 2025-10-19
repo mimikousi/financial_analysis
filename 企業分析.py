@@ -28,6 +28,8 @@ except KeyError:
     st.subheader(f"{num}：企業名を取得できませんでした。")
 
 financials = ticker.financials.T[['Total Revenue', 'Gross Profit']]
+# 円 → 百万円 に変換
+financials[['Total Revenue', 'Gross Profit']] = financials[['Total Revenue', 'Gross Profit']] / 1e6
 financials['Gross Margin'] = financials["Gross Profit"] / financials["Total Revenue"]*100
 
 # 列名を日本語に変換
@@ -39,6 +41,9 @@ financials_ = financials.rename(columns={
 
 # 表示
 st.dataframe(financials_)
+st.dataframe(
+    financials_.style.format("{:,.0f}")
+)
 
 # 年月の表示を列名（日付→年表記など）に変換（例: 2021-12-31 → 2021）
 financials.index = pd.to_datetime(financials.index).year.astype(int)
@@ -94,7 +99,7 @@ fig.update_xaxes(
 )
 
 fig.update_yaxes(title_text="金額（円）", secondary_y=False)
-fig.update_yaxes(title_text="粗利率（%）", secondary_y=True)
+fig.update_yaxes(title_text="粗利率（%）", secondary_y=True, showgrid=False)
 
 st.plotly_chart(fig, use_container_width=True)
 
